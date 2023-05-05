@@ -270,9 +270,12 @@ if __name__ == '__main__':
 
     ui_width = 360
     ui_height = 840
+    ui_bg_color = '#e0eee8'
+
     ui_win = tk.Tk()
     ui_win.title(f'MuipEasy {global_version}')
     ui_win.geometry(f'{ui_width}x{ui_height}')
+    ui_win.config(bg=ui_bg_color)
 
     ui_frm_uid = tk.Frame(master=ui_win)
     ui_lbl_uid = tk.Label(ui_frm_uid, text='uid', font=(None, 12))
@@ -293,14 +296,16 @@ if __name__ == '__main__':
         None, 12), command=lambda: execute(ui_ent_msg.get(), True))
     ui_btn_execute.pack()
 
-    ui_lbl_sent = tk.Label(ui_win, text='Command History', font=(None, 12))
+    ui_lbl_sent = tk.Label(ui_win, text='Command History',
+                           font=(None, 12), bg=ui_bg_color)
     ui_lbl_sent.pack()
     ui_txt_sent = tkscrolled.ScrolledText(
         master=ui_win, height=5, font=(None, 10))
     ui_txt_sent.pack()
     global_ui_sent = ui_txt_sent
 
-    ui_lbl_resp = tk.Label(ui_win, text='Server Response', font=(None, 12))
+    ui_lbl_resp = tk.Label(ui_win, text='Server Response',
+                           font=(None, 12), bg=ui_bg_color)
     ui_lbl_resp.pack()
     ui_txt_resp = tkscrolled.ScrolledText(
         master=ui_win, height=4, font=(None, 10))
@@ -308,15 +313,15 @@ if __name__ == '__main__':
     global_ui_resp = ui_txt_resp
 
     ui_frm_init = tk.LabelFrame(
-        ui_win, text="init unlock (must follow the order)", labelanchor="n", bg='#66CDAA')
+        ui_win, text="init unlock (must follow the order)", labelanchor="n", bg=ui_bg_color)
     ui_lbl_init1 = tk.Message(ui_frm_init, text='1. After inital animation, follow Paimon and unlock first Teleport Waypoint.', font=(
-        None, 12), anchor='w', width=ui_width-10, bg='#66CDAA')
+        None, 12), anchor='w', width=ui_width-10, bg=ui_bg_color)
     ui_lbl_init1.pack(fill='x')
     ui_btn_unlock_map = tk.Button(ui_frm_init, text='2. unlock all map', font=(
         None, 12), command=func_unlock_map)
     ui_btn_unlock_map.pack(anchor='w')
     ui_lbl_init2 = tk.Message(ui_frm_init, text='3. Finish beating Slim quest.', font=(
-        None, 12), anchor='w', width=ui_width-10, bg='#66CDAA')
+        None, 12), anchor='w', width=ui_width-10, bg=ui_bg_color)
     ui_lbl_init2.pack(fill='x')
     ui_btn_init_level60 = tk.Button(ui_frm_init, text='4. player level 60, unlock more dungeon', font=(
         None, 12), command=func_level60)
@@ -325,7 +330,7 @@ if __name__ == '__main__':
         None, 12), command=lambda: execute('quest accept 35603'))
     ui_btn_init_fly.pack(anchor='w')
     ui_lbl_init3 = tk.Message(ui_frm_init, text='6. Trans to Mondstadt, go to the place Amber instructed and fly to fountain. Then you will meet Dvalin, when start actual fight, use following button to finish.', font=(
-        None, 12), anchor='w', width=ui_width-10, bg='#66CDAA')
+        None, 12), anchor='w', width=ui_width-10, bg=ui_bg_color)
     ui_lbl_init3.pack(fill='x')
     ui_btn_init_beat_dvalin = tk.Button(ui_frm_init, text='7. finish beat_dvalin quest', font=(
         None, 12), command=lambda: execute('quest finish 35722'))
@@ -336,7 +341,7 @@ if __name__ == '__main__':
     ui_frm_init.pack(fill=tk.X)
 
     ui_frm_init_extra = tk.LabelFrame(
-        ui_win, text="init get items", labelanchor="n", bg='#66CDAA')
+        ui_win, text="init get items", labelanchor="n", bg=ui_bg_color)
     ui_btn_graduate = tk.Button(ui_frm_init_extra, text='current avatar graduates', font=(
         None, 12), command=func_graduate)
     ui_btn_graduate.pack(anchor='w')
@@ -355,7 +360,7 @@ if __name__ == '__main__':
     ui_frm_init_extra.pack(fill=tk.X)
 
     ui_frm_daily = tk.LabelFrame(
-        ui_win, text="daily", labelanchor="n", bg='#66CDAA')
+        ui_win, text="daily", labelanchor="n", bg=ui_bg_color)
     ui_frm_infinite = tk.Frame(master=ui_frm_daily)
     ui_btn_infinite = tk.Button(
         ui_frm_infinite, text='infinite hp,stamina,energy', font=(None, 12), command=func_infinite)
