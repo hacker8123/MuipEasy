@@ -354,7 +354,7 @@ if __name__ == '__main__':
     ui_btn_unlock_map = tk.Button(ui_frm_init, text='2. unlock big world map', font=(
         None, 12), command=func_unlock_map)
     ui_btn_unlock_map.pack(anchor='w')
-    ui_lbl_init2 = tk.Message(ui_frm_init, text='3. Finish beating Slim quest.', font=(
+    ui_lbl_init2 = tk.Message(ui_frm_init, text='3. Finish beat_slim quest.', font=(
         None, 12), anchor='w', width=ui_width-10, bg=ui_bg_color)
     ui_lbl_init2.pack(fill='x')
     ui_btn_init_level60 = tk.Button(ui_frm_init, text='4. player level 60, unlock more dungeon', font=(
