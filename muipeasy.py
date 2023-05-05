@@ -241,12 +241,16 @@ def func_get_all_item():
         execute('item add 2200%02d' % gadget_id)
 
     # gadget consumeble 小道具消耗品(100)
+    execute('item add 220006 50')  # 寻仙的美食家
     execute('item add 220017 50')  # 放热瓶
     execute('item add 220043 50')  # 四方八方之网
     execute('item add 220001 50')  # 共鸣石风
     execute('item add 220002 50')  # 共鸣石岩
     execute('item add 220032 50')  # 共鸣石雷
     execute('item add 220057 50')  # 共鸣石草
+
+    # others 其它
+    execute('item add 200900')  # 林野钓竿
 
     # fireworks 烟花(1)
     for temp_id in set(range(1, 13)):
