@@ -23,7 +23,7 @@ _cmd_id = 1116  # gmTalk
 
 # ----------------------------------------------------------------------------
 
-global_version = '0.1.2'
+global_version = '0.1.3'
 global_ui_sent = None
 global_ui_resp = None
 global_ui_uid = None
@@ -39,9 +39,9 @@ def sha256_sign(secret, message):
 
 
 def execute(msg, add_history=False):
-    if global_ui_uid.get()=='':
+    if global_ui_uid.get() == '':
         tkmsgbox.showwarning(
-                'Warning', 'Please input your uid.')
+            'Warning', 'Please input your uid.')
         return False
     try:
         kvs = []
@@ -101,6 +101,14 @@ def func_infinite():
     execute('wudi global avatar on')
 
 
+def func_infinite_off():
+    if not execute('test if uid correct'):
+        return
+    execute('stamina infinite off')
+    execute('energy infinite off')
+    execute('wudi global avatar off')
+
+
 def func_unlock_map():
     if not execute('test if uid correct'):
         return
@@ -109,8 +117,10 @@ def func_unlock_map():
     execute('quest accept 35205')
     execute('quest finish 35205')
 
-    # statues 七天神像
+    # open all state lock 打开所有状态锁
     execute('openstate all 1')
+
+    # other statues 其余七天神像
     for statue_id in range(2, 29):
         execute('quest finish 303%02d' % statue_id)
 
@@ -150,13 +160,15 @@ def func_unlock_map():
     # for test_id in test_list:
     #     execute('point 3 %d' % test_id)
 
-def func_unlock_map2():
+
+def func_level60():
     if not execute('test if uid correct'):
         return
 
     execute('player level 60')
 
-    # DungeonEntry(player level needed) 秘境入口(重新解锁，因为等级不够)
+    # re-unlock dungeon due to level limit 重新解锁(因为前面等级不够)
+    # DungeonEntry 秘境入口
     dungeon_list = [1, 107, 117, 131, 133, 135, 137, 139, 146, 20, 22, 221, 282, 308, 310, 350, 351, 359,
                     361, 368, 40, 42, 424, 426, 433, 44, 45, 48, 50, 505, 507, 509, 516, 600, 607, 618, 646, 671, 674, 675]
     for dungeon_id in dungeon_list:
@@ -191,14 +203,32 @@ def func_get_all_weapon():
         execute('equip add %s 90 6 4' % weapon_id)
 
 
+def func_get_all_coin():
+    if not execute('test if uid correct'):
+        return
+
+    # money 钱币(42亿)
+    execute('mcoin 10000000')  # 创世结晶
+    execute('hcoin 10000000')  # 原石
+    execute('scoin 10000000')  # 摩拉
+    execute('home_coin 100000000')  # 家园币
+
+    # gacha related 抽卡相关 (1000000)
+    execute('item add 223 100000')  # 创世结晶
+    execute('item add 224 100000')  # 相遇之缘
+    execute('item add 221 100000')  # 星辉
+    execute('item add 222 100000')  # 星尘
+
+
 def func_get_all_item():
     if not execute('test if uid correct'):
         return
 
     # food 食物(2000)
-    food_list = read_number_from_file('food.txt')
-    for food_id in food_list:
-        execute('item add %s 1000' % food_id)
+    # TODO: 苹果、日落果等
+    # food_list = read_number_from_file('food.txt')
+    # for food_id in food_list:
+    #     execute('item add %s 1000' % food_id)
 
     # recipe 食谱(1)
     recipe_list = read_number_from_file('recipe.txt')
@@ -222,21 +252,10 @@ def func_get_all_item():
     for temp_id in set(range(1, 13)):
         execute('item add 2230%02d' % temp_id)
 
-    # teapot realm unlock tool 洞天解锁道具(1)
+    # teapot item 洞天道具
     execute('item add 222001')  # 绘绮之枕印
     execute('item add 222002')  # 烟林之真果
-
-    # money 钱币(42亿)
-    execute('mcoin 10000000')  # 创世结晶
-    execute('hcoin 10000000')  # 原石
-    execute('scoin 10000000')  # 摩拉
-    execute('home_coin 100000000')  # 家园币
-
-    # gacha related 抽卡相关 (1000000)
-    execute('item add 223 100000')  # 创世结晶
-    execute('item add 224 100000')  # 相遇之缘
-    execute('item add 221 100000')  # 星辉
-    execute('item add 222 100000')  # 星尘
+    execute('item add 107013 50')  # 仙速瓶(100)
 
     # TODO: add more
 
@@ -250,7 +269,7 @@ def func_change_weather(event):
 if __name__ == '__main__':
 
     ui_width = 360
-    ui_height = 800
+    ui_height = 840
     ui_win = tk.Tk()
     ui_win.title(f'MuipEasy {global_version}')
     ui_win.geometry(f'{ui_width}x{ui_height}')
@@ -293,19 +312,19 @@ if __name__ == '__main__':
     ui_lbl_init1 = tk.Message(ui_frm_init, text='1. After inital animation, follow Paimon and unlock first Teleport Waypoint.', font=(
         None, 12), anchor='w', width=ui_width-10, bg='#66CDAA')
     ui_lbl_init1.pack(fill='x')
-    ui_btn_unlock_map = tk.Button(
-        ui_frm_init, text='2. unlock map', font=(None, 12), command=func_unlock_map)
+    ui_btn_unlock_map = tk.Button(ui_frm_init, text='2. unlock all map', font=(
+        None, 12), command=func_unlock_map)
     ui_btn_unlock_map.pack(anchor='w')
     ui_lbl_init2 = tk.Message(ui_frm_init, text='3. Finish beating Slim quest.', font=(
         None, 12), anchor='w', width=ui_width-10, bg='#66CDAA')
     ui_lbl_init2.pack(fill='x')
-    ui_btn_init_level60 = tk.Button(ui_frm_init, text='4.(optional) level 60, unlock more dungeon', font=(
-        None, 12), command=func_unlock_map2)
+    ui_btn_init_level60 = tk.Button(ui_frm_init, text='4. player level 60, unlock more dungeon', font=(
+        None, 12), command=func_level60)
     ui_btn_init_level60.pack(anchor='w')
     ui_btn_init_fly = tk.Button(ui_frm_init, text='5. accept fly quest', font=(
         None, 12), command=lambda: execute('quest accept 35603'))
     ui_btn_init_fly.pack(anchor='w')
-    ui_lbl_init3 = tk.Message(ui_frm_init, text='6. Trans to Mondstadt, talk with Amber and fly to fountain. Then you will meet Dvalin, when start actual fight, use following button to finish.', font=(
+    ui_lbl_init3 = tk.Message(ui_frm_init, text='6. Trans to Mondstadt, go to the place Amber instructed and fly to fountain. Then you will meet Dvalin, when start actual fight, use following button to finish.', font=(
         None, 12), anchor='w', width=ui_width-10, bg='#66CDAA')
     ui_lbl_init3.pack(fill='x')
     ui_btn_init_beat_dvalin = tk.Button(ui_frm_init, text='7. finish beat_dvalin quest', font=(
@@ -327,6 +346,9 @@ if __name__ == '__main__':
     ui_btn_get_all_weapon = tk.Button(ui_frm_init_extra, text='get all weapons', font=(
         None, 12), command=func_get_all_weapon)
     ui_btn_get_all_weapon.pack(anchor='w')
+    ui_btn_get_all_coin = tk.Button(ui_frm_init_extra, text='get all coins', font=(
+        None, 12), command=func_get_all_coin)
+    ui_btn_get_all_coin.pack(anchor='w')
     ui_btn_get_all_item = tk.Button(ui_frm_init_extra, text='get all items (unfinished)', font=(
         None, 12), command=func_get_all_item)
     ui_btn_get_all_item.pack(anchor='w')
@@ -334,9 +356,14 @@ if __name__ == '__main__':
 
     ui_frm_daily = tk.LabelFrame(
         ui_win, text="daily", labelanchor="n", bg='#66CDAA')
+    ui_frm_infinite = tk.Frame(master=ui_frm_daily)
     ui_btn_infinite = tk.Button(
-        ui_frm_daily, text='infinite hp,stamina,energy', font=(None, 12), command=func_infinite)
-    ui_btn_infinite.pack(anchor='w')
+        ui_frm_infinite, text='infinite hp,stamina,energy', font=(None, 12), command=func_infinite)
+    ui_btn_infinite.pack(side=tk.LEFT)
+    ui_btn_infinite_off = tk.Button(
+        ui_frm_infinite, text='turn off', font=(None, 12), command=func_infinite_off)
+    ui_btn_infinite_off.pack(side=tk.RIGHT)
+    ui_frm_infinite.pack(anchor='w')
     ui_btn_kill_monster = tk.Button(ui_frm_daily, text='kill all monsters', font=(
         None, 12), command=lambda: execute('kill monster all'))
     ui_btn_kill_monster.pack(anchor='w')
