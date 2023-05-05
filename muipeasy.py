@@ -156,9 +156,39 @@ def func_unlock_map():
     # PersonalSceneJumpPoint 未知
     # test_list=[177,178,179,190,27,28,287,288,30,31,32,345,402,416,579,581,583,585,611,88]
     # SceneBuildingPoint 地图上一些奇怪的符号比如海灯节
-    # test_list=[151,157,158,159,160,161,170,201,207,215,216,226,227,231,238,259,268,273,286,341,342,343,344,354,370,371,372,373,374,375,388,391,400,401,408,409,410,411,412,413,414,415,423,428,429,434,467,511,523,524,525,526,527,528,529,530,531,532,54,55,56,563,564,565,574,578,62,622,624,63,64,65,650,669,686,687,688,694,695,696,726,98]
+    # test_list=[151,157,158,159,160,161,170,201,207,215,216,226,227,231,238,259,268,273,286,341,342,343,344,354,370,371,372,373,374,375,388,391,400,401,408,409,410,411,412,413,414,415,423,428,429,434,467,511,523,524,525,526,527,528,529,530,531,532,54,55,56,563,564,565,574,578,62,622,624,63,64,65,650,669,686,687,688,694,695,696,707,726,98]
     # for test_id in test_list:
     #     execute('point 3 %d' % test_id)
+
+
+def func_unlock_chasm():
+    if not execute('test if uid correct'):
+        return
+
+    # 巧瞒七星解磐键: 破坏最后一座磐键
+    execute('quest accept 7104423')
+    execute('quest finish 7104423')
+
+    # SceneTransPoint 传送锚点
+    trans_list = [1, 10, 11, 12, 13, 17, 2, 3, 4, 5, 6, 7, 8, 9]
+    trans_list += [14]  # OnUnlocked
+    for trans_id in trans_list:
+        execute('point 6 %d' % trans_id)
+
+
+def func_unlock_enkanomiya():
+    if not execute('test if uid correct'):
+        return
+
+    # 止水之潘: 前往渊下宫
+    execute('quest accept 7223309')
+    execute('quest finish 7223309')
+
+    # SceneTransPoint 传送锚点
+    trans_list = [1, 10, 12, 14, 17, 2, 20, 21, 22, 24, 25, 26,
+                  27, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 4, 6, 9]
+    for trans_id in trans_list:
+        execute('point 5 %d' % trans_id)
 
 
 def func_level60():
@@ -321,7 +351,7 @@ if __name__ == '__main__':
     ui_lbl_init1 = tk.Message(ui_frm_init, text='1. After inital animation, follow Paimon and unlock first Teleport Waypoint.', font=(
         None, 12), anchor='w', width=ui_width-10, bg=ui_bg_color)
     ui_lbl_init1.pack(fill='x')
-    ui_btn_unlock_map = tk.Button(ui_frm_init, text='2. unlock all map', font=(
+    ui_btn_unlock_map = tk.Button(ui_frm_init, text='2. unlock big world map', font=(
         None, 12), command=func_unlock_map)
     ui_btn_unlock_map.pack(anchor='w')
     ui_lbl_init2 = tk.Message(ui_frm_init, text='3. Finish beating Slim quest.', font=(
@@ -345,7 +375,15 @@ if __name__ == '__main__':
     ui_frm_init.pack(fill=tk.X)
 
     ui_frm_init_extra = tk.LabelFrame(
-        ui_win, text="init get items", labelanchor="n", bg=ui_bg_color)
+        ui_win, text="init extra", labelanchor="n", bg=ui_bg_color)
+    ui_frm_more_map = tk.Frame(master=ui_frm_init_extra)
+    ui_btn_chasm = tk.Button(
+        ui_frm_more_map, text='unlock Chasm', font=(None, 12), command=func_unlock_chasm)
+    ui_btn_chasm.pack(side=tk.LEFT)
+    ui_btn_enkanomiya = tk.Button(
+        ui_frm_more_map, text='unlock Enkanomiya', font=(None, 12), command=func_unlock_enkanomiya)
+    ui_btn_enkanomiya.pack(side=tk.RIGHT)
+    ui_frm_more_map.pack(anchor='w')
     ui_btn_graduate = tk.Button(ui_frm_init_extra, text='current avatar graduates', font=(
         None, 12), command=func_graduate)
     ui_btn_graduate.pack(anchor='w')
@@ -373,7 +411,7 @@ if __name__ == '__main__':
         ui_frm_infinite, text='turn off', font=(None, 12), command=func_infinite_off)
     ui_btn_infinite_off.pack(side=tk.RIGHT)
     ui_frm_infinite.pack(anchor='w')
-    ui_btn_kill_monster = tk.Button(ui_frm_daily, text='kill all monsters', font=(
+    ui_btn_kill_monster = tk.Button(ui_frm_daily, text='kill nearby monsters', font=(
         None, 12), command=lambda: execute('kill monster all'))
     ui_btn_kill_monster.pack(anchor='w')
     ui_frm_weather = tk.Frame(master=ui_frm_daily)
